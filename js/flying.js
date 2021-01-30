@@ -60,6 +60,12 @@ document.getElementById("economyDecrementButton").addEventListener("click", func
 });
 
 
+// when someone click the button add createModal function
+document.getElementById("booking").addEventListener("click", function () {
+    updateModal(flightTicket);
+});
+
+
 
 
 // what happen when someone click increment button
@@ -120,8 +126,44 @@ function totalCalculation(ticketObj) {
 
 // updating modal
 function updateModal(ticketObj) {
-    document.getElementById("firstClass").innerText = ticketObj.numberOfTicketFirst + " x $" + ticketObj.rateOfFirstClass + " = $" + ticketObj.firstClassAmount;
-    document.getElementById("economyClass").innerText = ticketObj.numberOfTicketEconomy + " x $" + ticketObj.rateOfEconomyClass + " = $" + ticketObj.EconomyClassAmount;
-    document.getElementById("vatClass").innerText = "$" + ticketObj.vatAmount;
-    document.getElementById("totalClass").innerText = "$" + ticketObj.totalAmount;
+
+    // check if total Amount is zero or not 
+    if (ticketObj.totalAmount != 0) {
+
+        createModal("message", ticketObj); // create modal if totalAmount is not zero  
+    }
+    else {
+
+        document.getElementById("message").innerHTML = "<div class='alert alert-danger'>Please select all thing first. Then conform.</div>"
+    }
+
+}
+
+
+// creating an element for showing message
+function createModal(classOfModal, ticketObj) {
+    let modal = document.getElementById(classOfModal);
+    modal.innerHTML =
+        `
+    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="form-style">First Class Total Amount: ${ticketObj.numberOfTicketFirst} x $${ticketObj.rateOfFirstClass} = $${ticketObj.firstClassAmount}</p>
+                        <p class="form-style">Economy Class Total Amount: ${ticketObj.numberOfTicketEconomy} x $${ticketObj.rateOfEconomyClass} = $${ticketObj.EconomyClassAmount}</p>
+                        <p class="form-style">VAT: $${ticketObj.vatAmount}</p>
+                        <p class="form-style">Total: $${ticketObj.totalAmount}</p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Conform</button>
+                    </div>
+    </div>
+    
+    `;
+
+
 }
